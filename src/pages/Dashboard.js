@@ -11,6 +11,7 @@ function Dashboard(props) {
   const [manufacturer, setManufacturer] = useState("");
   const [loading, setLoading] = useState(false);
 
+  //function to remove devices from list
   const removeDevice = async (id) => {
     try {
       const resp = await await fetch(
@@ -23,15 +24,17 @@ function Dashboard(props) {
         }
       );
       console.log(resp);
-
+      //load devices again when one is removed
       getDevices();
     } catch (error) {
       console.log(error);
     }
   };
-
+  //function to get all devices
   const getDevices = async () => {
+    //set spinner for loading devices
     setLoading(true);
+    //fetch from api
     const resp = await fetch("https://topcoders-be.herokuapp.com/api/devices", {
       headers: {
         "Content-Type": "application/json",
@@ -39,16 +42,13 @@ function Dashboard(props) {
     });
     const result = await resp.json();
     setLoading(false);
+    //set devices to devices state
     setDevices(result);
   };
 
   useEffect(() => {
     getDevices();
   }, []);
-
-  const details = (id) => {
-    window.location.href = `/details/${id}`;
-  };
 
   return (
     <div>
@@ -59,17 +59,21 @@ function Dashboard(props) {
           </Link>
         </div>
         <hr />
-        {loading && <Spinner color="info" />}
-        <Row>
-          {devices &&
-            devices.map((device) => (
-              <SingleDevice
-                device={device}
-                click={details}
-                removeDevice={removeDevice}
-              />
-            ))}
-        </Row>
+        {/* set spinner is devices still loading */}
+        {loading ? (
+          <Spinner color="info" />
+        ) : (
+          <Row>
+            {devices &&
+              devices.map((device) => (
+                <SingleDevice
+                  device={device}
+                  //function inherited from props
+                  removeDevice={removeDevice}
+                />
+              ))}
+          </Row>
+        )}
       </main>
     </div>
   );

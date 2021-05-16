@@ -9,6 +9,7 @@ import { Col } from "reactstrap";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 
+//style hook
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -26,12 +27,13 @@ const useStyles = makeStyles({
   },
 });
 
+//passed props for use in the dashboard
 export default function SingleDevice({ device, click, removeDevice }) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
-    <Col xs={6} md={4} className="mb-4">
+    <Col xs={12} md={6} className="mb-4">
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Typography
@@ -55,34 +57,38 @@ export default function SingleDevice({ device, click, removeDevice }) {
               <span className="text-primary">No</span>
             )}{" "}
             <br />
-            {device.isCheckedOut && (
-              <p>
-                {" "}
-                To: {device.lastCheckedOutBy}
-                <br />
-                When:{" "}
-                <Moment format="YYYY/MM/DD">{device.lastCheckedOutDate}</Moment>
-                <br />
-                Out for Days:{" "}
-                {device.isCheckedOut ? (
-                  <Moment fromNow>{device.lastCheckedOutDate}</Moment>
-                ) : (
-                  <span>Not out</span>
-                )}
-                <br />
-              </p>
-            )}
           </Typography>
+
+          {device.isCheckedOut && (
+            <Typography variant="body2" component="p">
+              {" "}
+              To: {device.lastCheckedOutBy}
+              <br />
+              {/* used moment library to format date */}
+              <Moment format="YYYY/MM/DD">{device.lastCheckedOutDate}</Moment>
+              <br />
+              Out for Days:{" "}
+              {device.isCheckedOut ? (
+                <Moment fromNow>{device.lastCheckedOutDate}</Moment>
+              ) : (
+                <span>Not out</span>
+              )}
+              <br />
+            </Typography>
+          )}
         </CardContent>
         <CardActions>
-          <Link to={`/details/${device._id}`}>
+          <Link
+            style={{ textDecoration: "none" }}
+            to={`/details/${device._id}`}
+          >
             <Button color="primary" size="small">
               Device Details
             </Button>
           </Link>
           <Button
             onClick={() => removeDevice(device._id)}
-            color="red"
+            color="secondary"
             size="small"
           >
             Remove Device

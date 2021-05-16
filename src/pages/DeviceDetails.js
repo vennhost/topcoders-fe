@@ -123,9 +123,10 @@ function DeviceDetails(props) {
     }
   };
 
+  //function to get a single device
   const getDevice = async () => {
     setLoading(true);
-    console.log(params);
+    //used to get the devide id from url params
     const id = params.id;
     const resp = await fetch(
       `https://topcoders-be.herokuapp.com/api/devices/${id}`,
@@ -140,10 +141,12 @@ function DeviceDetails(props) {
     setDevice(result);
   };
 
+  //load devices when component did mount
   useEffect(() => {
     getDevice();
   }, []);
 
+  //function for form modal body using material-ui modal
   const formBody = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Checkout Device</h2>
@@ -209,7 +212,7 @@ function DeviceDetails(props) {
               )}{" "}
               <br />
               {device.isCheckedOut && (
-                <article>
+                <p>
                   {" "}
                   <strong>To:</strong> {device.lastCheckedOutBy}
                   <br />
@@ -225,7 +228,7 @@ function DeviceDetails(props) {
                     <span>Not out</span>
                   )}
                   <br />
-                </article>
+                </p>
               )}
             </Typography>
           </CardContent>
