@@ -11,6 +11,25 @@ function Dashboard(props) {
   const [manufacturer, setManufacturer] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const removeDevice = async (id) => {
+    try {
+      const resp = await await fetch(
+        `https://topcoders-be.herokuapp.com/api/devices/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(resp);
+
+      getDevices();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getDevices = async () => {
     setLoading(true);
     const resp = await fetch("https://topcoders-be.herokuapp.com/api/devices", {
@@ -26,12 +45,6 @@ function Dashboard(props) {
   useEffect(() => {
     getDevices();
   }, []);
-
-  const changeName = (e) => {
-    console.log(e.target.value);
-  };
-  const changeMan = (e) => {};
-  const changeOs = (e) => {};
 
   const details = (id) => {
     window.location.href = `/details/${id}`;
@@ -50,7 +63,11 @@ function Dashboard(props) {
         <Row>
           {devices &&
             devices.map((device) => (
-              <SingleDevice device={device} click={details} />
+              <SingleDevice
+                device={device}
+                click={details}
+                removeDevice={removeDevice}
+              />
             ))}
         </Row>
       </main>

@@ -73,19 +73,19 @@ function DeviceDetails(props) {
     const id = params.id;
 
     try {
-      const resp = await fetch(
+      const resp = await await fetch(
         `https://topcoders-be.herokuapp.com/api/devices/uncheckout/${id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({}),
         }
       );
       const res = await resp.json();
-      getDevice();
+
       setOpen(false);
+      getDevice();
     } catch (error) {
       console.log(error);
       setOpen(false);
@@ -144,10 +144,6 @@ function DeviceDetails(props) {
     getDevice();
   }, []);
 
-  const checkOut = async () => {
-    console.log("checked");
-  };
-
   const formBody = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Checkout Device</h2>
@@ -169,14 +165,16 @@ function DeviceDetails(props) {
         {message && (
           <Alert color="danger">
             {message}{" "}
-            <Button
-              variant="outlined"
-              size="small"
-              color="primary"
-              onClick={retrieve}
-            >
-              Retrieve
-            </Button>
+            {device.isCheckedOut && (
+              <Button
+                variant="outlined"
+                size="small"
+                color="primary"
+                onClick={retrieve}
+              >
+                Retrieve
+              </Button>
+            )}
           </Alert>
         )}
       </form>

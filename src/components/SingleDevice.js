@@ -26,68 +26,69 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SingleDevice({ device, click }) {
+export default function SingleDevice({ device, click, removeDevice }) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Col xs={6} md={4} className="mb-4">
-      <Link to={`/details/${device._id}`}>
-        <Card className={classes.root} variant="outlined">
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {device.manufacturer}
-            </Typography>
-            <Typography variant="h5" component="h2">
-              {device.device}
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              {device.os}
-            </Typography>
-            <Typography variant="body2" component="p">
-              Checked Out?{" "}
-              {device.isCheckedOut ? (
-                <span className="text-danger">Yes</span>
-              ) : (
-                <span className="text-primary">No</span>
-              )}{" "}
-              <br />
-              {device.isCheckedOut && (
-                <article>
-                  {" "}
-                  To: {device.lastCheckedOutBy}
-                  <br />
-                  When:{" "}
-                  <Moment format="YYYY/MM/DD">
-                    {device.lastCheckedOutDate}
-                  </Moment>
-                  <br />
-                  Out for Days:{" "}
-                  {device.isCheckedOut ? (
-                    <Moment fromNow>{device.lastCheckedOutDate}</Moment>
-                  ) : (
-                    <span>Not out</span>
-                  )}
-                  <br />
-                </article>
-              )}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              onClick={() => click(device._id)}
-              color="primary"
-              size="small"
-            >
-              Details
+      <Card className={classes.root} variant="outlined">
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            {device.manufacturer}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {device.device}
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            {device.os}
+          </Typography>
+          <Typography variant="body2" component="p">
+            Checked Out?{" "}
+            {device.isCheckedOut ? (
+              <span className="text-danger">Yes</span>
+            ) : (
+              <span className="text-primary">No</span>
+            )}{" "}
+            <br />
+            {device.isCheckedOut && (
+              <p>
+                {" "}
+                To: {device.lastCheckedOutBy}
+                <br />
+                When:{" "}
+                <Moment format="YYYY/MM/DD">{device.lastCheckedOutDate}</Moment>
+                <br />
+                Out for Days:{" "}
+                {device.isCheckedOut ? (
+                  <Moment fromNow>{device.lastCheckedOutDate}</Moment>
+                ) : (
+                  <span>Not out</span>
+                )}
+                <br />
+              </p>
+            )}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Link to={`/details/${device._id}`}>
+            <Button color="primary" size="small">
+              Device Details
             </Button>
-          </CardActions>
-        </Card>
-      </Link>
+          </Link>
+          <Button
+            onClick={() => removeDevice(device._id)}
+            color="red"
+            size="small"
+          >
+            Remove Device
+          </Button>
+        </CardActions>
+      </Card>
     </Col>
   );
 }
