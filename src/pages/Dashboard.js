@@ -1,7 +1,7 @@
 import { TramOutlined } from "@material-ui/icons";
 import React, { useState, useEffect } from "react";
 import { Row, Spinner } from "reactstrap";
-import AddDevice from "../components/AddDevice";
+import { Link } from "react-router-dom";
 import SingleDevice from "../components/SingleDevice";
 
 function Dashboard(props) {
@@ -13,7 +13,7 @@ function Dashboard(props) {
 
   const getDevices = async () => {
     setLoading(true);
-    const resp = await fetch("https://mydevice-be.herokuapp.com/api/devices", {
+    const resp = await fetch("https://topcoders-be.herokuapp.com/api/devices", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -39,15 +39,11 @@ function Dashboard(props) {
 
   return (
     <div>
-      <h1>Dashboard</h1>
       <main className="container">
-        <div>
-          <AddDevice
-            changeName={changeName}
-            changeMan={changeMan}
-            changeOs={changeOs}
-            device={device}
-          />
+        <div className="mt-5">
+          <Link style={{ textDecoration: "none" }} className="btn-lg" to="/add">
+            Add Device
+          </Link>
         </div>
         <hr />
         {loading && <Spinner color="info" />}

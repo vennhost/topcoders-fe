@@ -23,7 +23,7 @@ const NavBar = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand to="/">X Garage</NavbarBrand>
+        <NavbarBrand to="/">Johnson & Johnson</NavbarBrand>
 
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
